@@ -9,7 +9,7 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='GraphRobustnessMeasure',
+    name='graph-robustness-measure',
     version='0.1.0',
     description='2020 hyu cse project',
     long_description=readme,
