@@ -12,3 +12,8 @@ def make_graph_with_edgelist(edgelist):
     g = nx.Graph()
     g.add_edges_from(edgelist)
     return g
+
+# 랜덤 그래프
+def generate_random_graph(n, p):
+    g = nx.gnp_random_graph(n, p)
+    return g
