@@ -21,12 +21,13 @@ def sum_list_inverse(list):
     return res
 
 def calculate_efficiency(costs, number_of_nodes):
-    #E(G) = 2/3 * 1/N(N-1)sigma(1/d_ij + 1/2*d_ij')
-    efficiency = 2 / (3*number_of_nodes*(number_of_nodes-1)) * (sum_list_inverse(costs[0]) + 1/2*sum_list_inverse(costs[1]))
-    #print('n: %d, sp: %d, ssp: %d' %(number_of_nodes, sum_list_inverse(costs[0]), sum_list_inverse(costs[1])))
-
+    efficiency = 1 / (number_of_nodes*(number_of_nodes-1)) * (sum_list_inverse(costs[0]))
     return efficiency
 
+def calculate_efficiency_ssp(costs, number_of_nodes):
+    efficiency = 2 / (3*number_of_nodes*(number_of_nodes-1)) * (sum_list_inverse(costs[0]) + 1/2*sum_list_inverse(costs[1]))
+
+    return efficiency
 
 if __name__ == '__main__':
     graph = make_graph_with_edgelist()
