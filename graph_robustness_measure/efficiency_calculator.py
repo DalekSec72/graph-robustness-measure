@@ -16,18 +16,18 @@ def sum_list_inverse(list):
             res += sum_list_inverse(i)
         else:
             if i != 0:
-                res += 1/i # 역수로 바꿔 더해줌
+                res += 1 / i  # 역수로 바꿔 더해줌
 
     return res
 
+
 def calculate_efficiency(costs, number_of_nodes):
-    efficiency = 1 / (number_of_nodes*(number_of_nodes-1)) * (sum_list_inverse(costs[0]))
-    return efficiency
+    return 1 / (number_of_nodes * (number_of_nodes - 1)) * (sum_list_inverse(costs[0]))
+
 
 def calculate_efficiency_ssp(costs, number_of_nodes):
-    efficiency = 2 / (3*number_of_nodes*(number_of_nodes-1)) * (sum_list_inverse(costs[0]) + 1/2*sum_list_inverse(costs[1]))
+    return 2 / (3 * number_of_nodes * (number_of_nodes - 1)) * (sum_list_inverse(costs[0]) + 1 / 2 * sum_list_inverse(costs[1]))
 
-    return efficiency
 
 if __name__ == '__main__':
     graph = make_graph_with_edgelist()
