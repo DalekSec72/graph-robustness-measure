@@ -130,3 +130,6 @@ dmypy.json
 
 # JetBrain
 .idea/
+
+# test results
+example_graph_pic.png
