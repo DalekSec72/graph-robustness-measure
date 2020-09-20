@@ -37,6 +37,6 @@ def floyd(graph):
                     elif cost[0][i][j] < (cost[0][i][k] + cost[0][k][j]):
                         cost[1][i][j] = min(cost[1][i][j], cost[0][i][k] + cost[0][k][j])
 
-                    cost[0][i][j] = min(cost[0][i][j], cost[0][i][k] + cost[0][k][j])
+                    cost[0][i][j] = cost[0][j][i] = min(cost[0][i][j], cost[0][i][k] + cost[0][k][j])
 
     return cost
