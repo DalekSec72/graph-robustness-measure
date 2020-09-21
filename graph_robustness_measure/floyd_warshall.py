@@ -17,7 +17,7 @@ def floyd(graph):
 
     # 연결된 edge의 코스트를 1로.
     for edge in edges:
-        start, end = edge[0], edge[1]
+        start, end = int(edge[0]), int(edge[1])
         cost[0][start][end] = 1
 
     # 플로이드 워셜.

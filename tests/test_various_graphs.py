@@ -5,7 +5,6 @@
 # Hyein You <rkakrnl0@gmail.com>
 
 import unittest
-import networkx as nx
 
 from graph_robustness_measure import graph
 from graph_robustness_measure import floyd_warshall
@@ -29,7 +28,7 @@ class VariousGraphTests(unittest.TestCase):
         print('\n')
 
     def test_cycle_graph(self):
-        g = graph.generate_graph(6, 3, graph_type='cycle')
+        g = graph.generate_graph(6, graph_type='cycle')
         r = floyd_warshall.floyd(g)
         e = efficiency_calculator.calculate_efficiency(r, g.number_of_nodes())
         e_ssp = efficiency_calculator.calculate_efficiency_ssp(r, g.number_of_nodes())
@@ -42,7 +41,7 @@ class VariousGraphTests(unittest.TestCase):
         print('\n')
 
     def test_star_graph(self):
-        g = graph.generate_graph(6, 3, graph_type='star')
+        g = graph.generate_graph(6, graph_type='star')
         r = floyd_warshall.floyd(g)
         e = efficiency_calculator.calculate_efficiency(r, g.number_of_nodes())
         e_ssp = efficiency_calculator.calculate_efficiency_ssp(r, g.number_of_nodes())
@@ -55,7 +54,7 @@ class VariousGraphTests(unittest.TestCase):
         print('\n')
 
     def test_wheel_graph(self):
-        g = graph.generate_graph(6, 3, graph_type='wheel')
+        g = graph.generate_graph(6, graph_type='wheel')
         r = floyd_warshall.floyd(g)
         e = efficiency_calculator.calculate_efficiency(r, g.number_of_nodes())
         e_ssp = efficiency_calculator.calculate_efficiency_ssp(r, g.number_of_nodes())
@@ -66,7 +65,6 @@ class VariousGraphTests(unittest.TestCase):
         print(e)
         print(e_ssp)
         print('\n')
-
 
 
 if __name__ == '__main__':

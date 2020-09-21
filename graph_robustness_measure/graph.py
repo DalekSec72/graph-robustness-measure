@@ -11,10 +11,13 @@ import networkx as nx
 
 # default 랜덤 그래프, 타입 지정해주면 해당 타입 생성.
 def generate_graph(n, x=0, graph_type='random'):
+    n = int(n)
     try:
         if graph_type == 'random':
+            x = float(x)
             return generate_random_graph(n, x)
         elif graph_type == 'balanced_tree':
+            x = int(x)
             return generate_balanced_tree(n, x)
         elif graph_type == 'cycle':
             return generate_cycle_graph(n)

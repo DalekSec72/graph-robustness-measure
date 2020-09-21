@@ -133,3 +133,5 @@ dmypy.json
 
 # test results
 example_graph_pic.png
+edgelists
+graph_figures
