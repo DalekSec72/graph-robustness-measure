@@ -17,7 +17,7 @@ from graph_robustness_measure import efficiency_calculator
 class FloydWarshallTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(FloydWarshallTests, self).__init__(*args, **kwargs)
-        self.g = graph.generate_graph(100, 0.5)
+        self.g = graph.generate_graph(2, 0.5, graph_type='random')
         self.r = floyd_warshall.floyd(self.g)
 
     def test_floyd(self):

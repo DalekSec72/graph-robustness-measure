@@ -54,6 +54,7 @@ def generate_wheel_graph(n):
 
 
 def draw_graph(g, path):
+    plt.cla()
     nx.draw(g)
     plt.savefig(path)
     #plt.show()
