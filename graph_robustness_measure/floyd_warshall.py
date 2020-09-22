@@ -39,9 +39,9 @@ def floyd(graph):
                 distance = itok + start_k[j]
                 itoj_ssp = start_i_ssp[j]
 
-                if itoj > (distance):
+                if itoj > distance:
                     start_i_ssp[j] = itoj
-                elif itoj < (distance):
+                elif itoj < distance:
                     start_i_ssp[j] = min(itoj_ssp, distance)
 
                 start_i[j] = cost[j][i] = min(itoj, distance)
@@ -53,4 +53,4 @@ def floyd(graph):
 
     result = [cost, cost_ssp]
 
-    return cost
+    return result

@@ -76,7 +76,7 @@ def main():
     parser.set_defaults(func=lambda x: parser.print_usage())
     parser.add_argument('-r', '--read', metavar='FILE', help='Read edgelist file and calculate efficiency')
     parser.add_argument('-n', '--new',
-                        metavar='NODE PROBABLITY GRAPH_TYPE',
+                        metavar='NODE PROBABILITY GRAPH_TYPE',
                         nargs='*',
                         help='Generate random graph and calculate efficiency')
 
