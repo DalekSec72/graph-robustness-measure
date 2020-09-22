@@ -7,6 +7,7 @@
 import time
 import unittest
 import networkx as nx
+import csv
 
 from graph_robustness_measure import graph
 from graph_robustness_measure import floyd_warshall
@@ -15,20 +16,34 @@ from graph_robustness_measure import efficiency_calculator
 
 # 작동시간 networkx 라이브러리 함수와 비교.
 class PerformanceTests(unittest.TestCase):
+    """
     def setUp(self):
-        self.g = graph.generate_graph(100, 0.5)
+        self.g = graph.generate_graph(1000, 0.5)
+    """
 
     def test_floyd_warshall_performance(self):
-        start = time.time()
-        floyd_warshall.floyd(self.g)
-        t1 = time.time() - start
+        number_of_node = 500
+        with open(f'../performance_{number_of_node}.csv', 'w') as f:
+            wr = csv.writer(f)
+            for i in range(1):
+                g = graph.generate_graph(number_of_node, 0.5)
 
-        start = time.time()
-        nx.floyd_warshall_numpy(self.g)
-        t2 = time.time() - start
+                start = time.time()
+                floyd_warshall.floyd(g)
+                t1 = time.time() - start
 
-        print('floyd warshall: ')
-        print(t1, t2)
+                start = time.time()
+                nx.floyd_warshall(g)
+                t2 = time.time() - start
+
+                start = time.time()
+                nx.floyd_warshall_numpy(g)
+                t3 = time.time() - start
+
+                wr.writerow([t1, t2, t3])
+
+                print(t1, t2, t3)
+
 
     def test_efficiency_calculate_performance(self):
         start = time.time()
