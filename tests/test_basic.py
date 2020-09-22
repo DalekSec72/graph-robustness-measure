@@ -25,13 +25,6 @@ class FloydWarshallTests(unittest.TestCase):
 
         self.assertListEqual(self.r[0], nx_r.tolist())
 
-    def test_sum_list_inverse(self):
-        sample_list = [[2, 5, 20], [0, floyd_warshall.INF]]
-        expected = 15 / 20
-        actual = efficiency_calculator.sum_list_inverse(sample_list)
-
-        self.assertAlmostEqual(actual, expected)
-
     def test_calculate_efficiency(self):
         e = efficiency_calculator.calculate_efficiency(self.r, self.g.number_of_nodes())
         nx_e = nx.global_efficiency(self.g)

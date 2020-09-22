@@ -4,7 +4,6 @@
 # Taehun Kim <th6424@gmail.com>
 # Hyein You <rkakrnl0@gmail.com>
 
-import sys
 import argparse
 
 from graph_robustness_measure import graph
@@ -12,11 +11,11 @@ from graph_robustness_measure import floyd_warshall
 
 
 # 플로이드 워셜 돌린 후 SP, second SP, ... 을 받아 E 계산.
-def sum_list_inverse(list):
+def _sum_list_inverse(list):
     res = 0
     for i in list:
         if type(i) == type(list):
-            res += sum_list_inverse(i)
+            res += _sum_list_inverse(i)
         else:
             if i != 0:
                 res += 1 / i  # 역수로 바꿔 더해줌
@@ -25,12 +24,12 @@ def sum_list_inverse(list):
 
 
 def calculate_efficiency(costs, number_of_nodes):
-    return 1 / (number_of_nodes * (number_of_nodes - 1)) * (sum_list_inverse(costs[0]))
+    return 1 / (number_of_nodes * (number_of_nodes - 1)) * (_sum_list_inverse(costs[0]))
 
 
 def calculate_efficiency_ssp(costs, number_of_nodes):
     return 2 / (3 * number_of_nodes * (number_of_nodes - 1)) * \
-           (sum_list_inverse(costs[0]) + 1 / 2 * sum_list_inverse(costs[1]))
+           (_sum_list_inverse(costs[0]) + 1 / 2 * _sum_list_inverse(costs[1]))
 
 
 def main_read(file):
