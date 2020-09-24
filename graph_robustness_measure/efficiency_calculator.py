@@ -36,20 +36,28 @@ def main_read(file):
     g = graph.read_graph(file)
     costs = floyd_warshall.floyd(g)
     e_ssp = calculate_efficiency_ssp(costs, g.number_of_nodes())
+    e_sp = calculate_efficiency(costs, g.number_of_nodes())
 
-    file_name = file.split('.')[0]
-    edgelist_path = f'../edgelists/{file_name}_{e_ssp}.csv'
-    fig_path = f'../graph_figures/{file_name}_{e_ssp}.png'
+    file_name = file.split('/').pop()
+    edgelist_path = f'../edgelists/{file_name}_{e_sp}_{e_ssp}.csv'
+    fig_path = f'../graph_figures/{file_name}_{e_sp}_{e_ssp}.png'
 
     graph.write_graph(g, edgelist_path)
     graph.draw_graph(g, fig_path)
 
 
 def main_new(args):
+    def _isfloat(k):
+        try:
+            float(k)
+            return True
+        except ValueError:
+            return False
+
     n = args[0]
     x = 0
     if len(args) > 1:
-        if args[1].isdigit():
+        if _isfloat(args[1]):
             x = args[1]
             graph_type = 'random'
         else:
@@ -58,13 +66,15 @@ def main_new(args):
     if len(args) > 2:
         graph_type = args[2]
 
+    print(n, x, graph_type, args[0], args[1])
     g = graph.generate_graph(n, x, graph_type)
     costs = floyd_warshall.floyd(g)
     e_ssp = calculate_efficiency_ssp(costs, g.number_of_nodes())
+    e_sp = calculate_efficiency(costs, g.number_of_nodes())
 
     file_name = f'{graph_type}'
-    edgelist_path = f'../edgelists/{file_name}_{n}_{x}_{e_ssp}.csv'
-    fig_path = f'../graph_figures/{file_name}_{n}_{x}_{e_ssp}.png'
+    edgelist_path = f'../edgelists/{file_name}_{n}_{x}_{e_sp}_{e_ssp}.csv'
+    fig_path = f'../graph_figures/{file_name}_{n}_{x}_{e_sp}_{e_ssp}.png'
 
     graph.write_graph(g, edgelist_path)
     graph.draw_graph(g, fig_path)
