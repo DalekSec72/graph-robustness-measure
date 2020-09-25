@@ -50,10 +50,10 @@ class FloydWarshallTests(unittest.TestCase):
 
     def tearDown(self):
         ex_graph = '../example_graph.csv'
-        # ex_pic = '../example_graph_pic.png'
+        ex_pic = '../example_graph_pic.png'
         try:
             os.remove(ex_graph)
-            # os.remove(ex_pic)
+            os.remove(ex_pic)
         except OSError:
             pass
 
