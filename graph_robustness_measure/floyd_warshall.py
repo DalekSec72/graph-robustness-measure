@@ -20,6 +20,7 @@ def floyd(graph):
     for edge in edges:
         start, end = int(edge[0]), int(edge[1])
         cost[start][end] = 1
+        cost[end][start] = 1
 
     for u in range(number_of_nodes):
         cost[u][u] = 0
@@ -44,7 +45,7 @@ def floyd(graph):
                 elif itoj < distance:
                     start_i_ssp[j] = min(itoj_ssp, distance)
 
-                start_i[j] = cost[j][i] = min(itoj, distance)
+                start_i[j] = min(itoj, distance)
 
             cost[i] = start_i
             cost_ssp[i] = start_i_ssp
