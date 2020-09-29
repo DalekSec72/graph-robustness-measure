@@ -55,3 +55,48 @@ def floyd(graph):
     result = [cost, cost_ssp]
 
     return result
+
+
+def floyd_dict(graph):
+    from collections import defaultdict
+
+    dist = defaultdict(lambda: defaultdict(lambda: INF))
+    sdist = defaultdict(lambda: defaultdict(lambda: INF))
+
+    for u in graph:
+        dist[u][u] = 0
+
+    for u, v in graph.edges():
+        dist[u][v] = dist[v][u] = 1
+
+    for w in graph:
+        dist_w = dist[w]
+        for u in graph:
+            dist_u = dist[u]
+            sdist_u = sdist[u]
+            for v in graph:
+                d = dist_u[w] + dist_w[v]
+                if dist_u[v] > d:
+                    sdist_u[v] = dist_u[v]
+                elif dist_u[v] < d:
+                    sdist_u[v] = min(sdist_u[v], d)
+
+                dist_u[v] = min(dist_u[v], d)
+            dist[u] = dist_u
+            sdist[u] = sdist_u
+
+    return dict(dist), dict(sdist)
+
+
+'''
+def floyd_numpy(graph):
+    try:
+        import numpy as np
+        import networkx as nx
+    except ImportError as e:
+        raise ImportError(e)
+
+    A = nx.to_numpy_array(graph, multigraph_weight=min, nonedge=INF)
+    n, m = A.shape
+    np.fill_diagonal(A, 0)
+'''

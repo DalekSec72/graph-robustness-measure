@@ -17,13 +17,24 @@ from graph_robustness_measure import efficiency_calculator
 class FloydWarshallTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(FloydWarshallTests, self).__init__(*args, **kwargs)
-        self.g = graph.generate_graph(100, 0.5)
+        self.g = graph.generate_graph(5, 0.5)
         self.r = floyd_warshall.floyd(self.g)
 
     def test_floyd(self):
         nx_r = nx.floyd_warshall_numpy(self.g)
 
         self.assertListEqual(self.r[0], nx_r.tolist())
+
+    def test_floyd_dict(self):
+        nx_r = nx.floyd_warshall(self.g)
+        r = floyd_warshall.floyd_dict(self.g)
+
+        self.assertDictEqual(r, nx_r)
+
+    def test_floyd_dict_ssp(self):
+        r = floyd_warshall.floyd_dict(self.g)[1]
+
+        self.assertDictEqual(r, self.r[1])
 
     def test_calculate_efficiency(self):
         e = efficiency_calculator.calculate_efficiency(self.r, self.g.number_of_nodes())

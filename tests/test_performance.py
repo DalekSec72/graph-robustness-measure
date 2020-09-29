@@ -30,6 +30,10 @@ class PerformanceTests(unittest.TestCase):
 
                 start = time.time()
                 floyd_warshall.floyd(g)
+                t4 = time.time() - start
+
+                start = time.time()
+                floyd_warshall.floyd_dict(g)
                 t1 = time.time() - start
 
                 start = time.time()
@@ -40,9 +44,9 @@ class PerformanceTests(unittest.TestCase):
                 nx.floyd_warshall_numpy(g)
                 t3 = time.time() - start
 
-                wr.writerow([t1, t2, t3])
+                wr.writerow([t4, t1, t2, t3])
 
-                print(t1, t2, t3)
+                print(t4, t1, t2, t3)
 
 
     def test_efficiency_calculate_performance(self):
