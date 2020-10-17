@@ -29,7 +29,7 @@ def calculate_efficiency(costs, number_of_nodes):
 
 def calculate_efficiency_ssp(costs, number_of_nodes):
     return 2 / (3 * number_of_nodes * (number_of_nodes - 1)) * \
-           (_sum_list_inverse(costs[0]) + 1 / 2 * _sum_list_inverse(costs[1]))
+           (_sum_list_inverse(costs[0]) + _sum_list_inverse(costs[1]))
 
 
 def main_read(file):

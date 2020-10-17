@@ -7,6 +7,7 @@
 import os
 import unittest
 import networkx as nx
+from numpy import testing
 
 from graph_robustness_measure import graph
 from graph_robustness_measure import floyd_warshall
@@ -17,7 +18,7 @@ from graph_robustness_measure import efficiency_calculator
 class FloydWarshallTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(FloydWarshallTests, self).__init__(*args, **kwargs)
-        self.g = graph.generate_graph(5, 0.5)
+        self.g = graph.generate_graph(100, 0.5)
         self.r = floyd_warshall.floyd(self.g)
 
     def test_floyd(self):
@@ -31,10 +32,21 @@ class FloydWarshallTests(unittest.TestCase):
 
         self.assertDictEqual(r, nx_r)
 
+    def test_floyd_numpy(self):
+        nx_r = nx.floyd_warshall_numpy(self.g)
+        r = floyd_warshall.floyd_numpy(self.g)[0]
+
+        testing.assert_array_equal(r, nx_r)
+
     def test_floyd_dict_ssp(self):
         r = floyd_warshall.floyd_dict(self.g)[1]
 
         self.assertDictEqual(r, self.r[1])
+
+    def test_floyd_numpy_ssp(self):
+        r = floyd_warshall.floyd_numpy(self.g)[1]
+
+        testing.assert_array_equal(r, self.r[1])
 
     def test_calculate_efficiency(self):
         e = efficiency_calculator.calculate_efficiency(self.r, self.g.number_of_nodes())
