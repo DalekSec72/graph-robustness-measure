@@ -29,9 +29,13 @@ def generate_graph(n, x=0, graph_type='random'):
         print(e)
 
 
+def random_partition_graph(sizes, p_in, p_out):
+    return nx.random_partition_graph(sizes, p_in, p_out)
+
+
 def draw_graph(g, path):
     plt.cla()
-    nx.draw(g)
+    nx.draw_networkx(g)
     plt.savefig(path)
     # plt.show()
 
