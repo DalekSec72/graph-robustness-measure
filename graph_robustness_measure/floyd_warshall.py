@@ -29,16 +29,24 @@ def floyd(graph):
     # 플로이드 워셜.
     for k in range(number_of_nodes):
         start_k = cost[k]
+        start_k_ssp = cost_ssp[k]
         for i in range(number_of_nodes):
             start_i = cost[i]
             start_i_ssp = cost_ssp[i]
             itok = cost[i][k]
+            itok_ssp = cost_ssp[i][k]
             for j in range(number_of_nodes):
                 # 더 짧은 경로로 변경.
                 # 최단경로 변경시 second-sp 값에 기존 최단경로 값 입력
                 # 그 외 버려지는 값일 경우 second-sp 값과 비교하여 더 낮은 값 입력
                 itoj = start_i[j]
                 distance = itok + start_k[j]
+                distance_ssp = min(itok + start_k_ssp[j], itok_ssp + start_k[j])
+                if distance_ssp == distance:
+                    distance_ssp = max(itok + start_k_ssp[j], itok_ssp + start_k[j])
+                if distance_ssp == distance:
+                    distance_ssp = INF
+
                 itoj_ssp = start_i_ssp[j]
 
                 if i != j:
@@ -46,6 +54,8 @@ def floyd(graph):
                         start_i_ssp[j] = itoj
                     elif itoj < distance:
                         start_i_ssp[j] = min(itoj_ssp, distance)
+                    else:
+                        start_i_ssp[j] = min(itoj_ssp, distance_ssp)
 
                 start_i[j] = min(itoj, distance)
 
