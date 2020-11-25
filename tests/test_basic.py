@@ -1,47 +1,84 @@
 # -*- coding: utf-8 -*-
 
+# 2020 HYU. CSE
+# Taehun Kim <th6424@gmail.com>
+# Hyein You <rkakrnl0@gmail.com>
 
+import os
 import unittest
+import networkx as nx
+from numpy import testing
+
 from graph_robustness_measure import graph
 from graph_robustness_measure import floyd_warshall
 from graph_robustness_measure import efficiency_calculator
 
 
+# 함수들 정상 작동 여부 테스트하는 basic tests.
 class FloydWarshallTests(unittest.TestCase):
-    # def test_floyd(self):
-    #     g = graph.generate_random_graph(5, 0.7)
-    #     r = floyd_warshall.floyd(g)
-    #
-    #     sp = r[0]
-    #     s_sp = r[1]
-    #     print(g.edges)
-    #     print(sp)
-    #     print(s_sp)
-    #
-    # def test_sum_list_inverse(self):
-    #     sample_list = [[2, 5, 20], [0, floyd_warshall.INF]]
-    #     expected = 15/20
-    #     actual = efficiency_calculator.sum_list_inverse(sample_list)
-    #
-    #     self.assertAlmostEqual(actual, expected)
+    def __init__(self, *args, **kwargs):
+        super(FloydWarshallTests, self).__init__(*args, **kwargs)
+        self.g = graph.generate_graph(100, 0.5)
+        self.r = floyd_warshall.floyd(self.g)
+
+    def test_floyd(self):
+        nx_r = nx.floyd_warshall_numpy(self.g)
+
+        self.assertListEqual(self.r[0], nx_r.tolist())
+
+    def test_floyd_dict(self):
+        nx_r = nx.floyd_warshall(self.g)
+        r = floyd_warshall.floyd_dict(self.g)
+
+        self.assertDictEqual(r, nx_r)
+
+    def test_floyd_numpy(self):
+        nx_r = nx.floyd_warshall_numpy(self.g)
+        r = floyd_warshall.floyd_numpy(self.g)[0]
+
+        testing.assert_array_equal(r, nx_r)
+
+    def test_floyd_dict_ssp(self):
+        r = floyd_warshall.floyd_dict(self.g)[1]
+
+        self.assertDictEqual(r, self.r[1])
+
+    def test_floyd_numpy_ssp(self):
+        r = floyd_warshall.floyd_numpy(self.g)[1]
+
+        testing.assert_array_equal(r, self.r[1])
 
     def test_calculate_efficiency(self):
-        # g = graph.generate_random_graph(5, 1)
-        g = graph.make_graph_with_type("random", 5, 1)
-        r = floyd_warshall.floyd(g)
-        e = efficiency_calculator.calculate_efficiency(r, g.number_of_nodes())
-        e2 = efficiency_calculator.calculate_efficiency_ssp(r, g.number_of_nodes())
+        e = efficiency_calculator.calculate_efficiency(self.r, self.g.number_of_nodes())
+        nx_e = nx.global_efficiency(self.g)
 
-        print(g.edges)
-        print(r[0])
-        print(r[1])
-        print(e)
-        print(e2)
+        self.assertEqual(e, nx_e)
 
-        graph.draw_graph(graph.make_graph_with_edgelist(g))
-        graph.write_graph(g, 'test_random.txt')
+    def test_calculate_efficiency_ssp(self):
+        e_ssp = efficiency_calculator.calculate_efficiency_ssp(self.r, self.g.number_of_nodes())
 
-        self.assertLessEqual(e, 1)
+        self.assertLessEqual(e_ssp, 1)
+
+    # 그래프 저장 후 다시 읽어서 같으면 패스.
+    def test_write_read_graph(self):
+        path = '../example_graph.csv'
+        graph.write_graph(self.g, path)
+        read_graph = graph.read_graph(path)
+
+        self.assertIs(nx.is_isomorphic(self.g, read_graph), True)
+
+    def test_draw_graph(self):
+        path = '../example_graph_pic.png'
+        graph.draw_graph(self.g, path)
+
+    def tearDown(self):
+        ex_graph = '../example_graph.csv'
+        ex_pic = '../example_graph_pic.png'
+        try:
+            os.remove(ex_graph)
+            os.remove(ex_pic)
+        except OSError:
+            pass
 
 
 if __name__ == '__main__':
